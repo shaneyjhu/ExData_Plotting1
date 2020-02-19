@@ -1,10 +1,13 @@
-dataFile <- "./data/household_power_consumption.txt"
-data <- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
-subSetData <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
+setwd("C:/Users/Akash Gupta/Desktop/Books/R wrangling/Exploratory data analysis Coursera")
 
-#str(subSetData)
-datetime <- strptime(paste(subSetData$Date, subSetData$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
-globalActivePower <- as.numeric(subSetData$Global_active_power)
-png("plot2.png", width=480, height=480)
-plot(datetime, globalActivePower, type="l", xlab="", ylab="Global Active Power (kilowatts)")
-dev.off()
+data_full <- read.csv("household_power_consumption.txt", header=T, sep=';', na.strings="?", nrows=2075259, check.names=F, stringsAsFactors=F, comment.char="", quote='\"')
+data1 <- subset(data_full, Date %in% c("1/2/2007","2/2/2007"))
+data1$Date <- as.Date(data1$Date, format="%d/%m/%Y")
+datetime <- paste(as.Date(data1$Date), data1$Time)
+data1$Datetime <- as.POSIXct(datetime)
+
+## Plot 2
+with(data1, {
+  plot(Global_active_power~Datetime, type="l",
+     ylab="Global Active Power (kilowatts)", xlab="")
+  })
