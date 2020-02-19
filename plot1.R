@@ -1,9 +1,8 @@
-dataFile <- "./data/household_power_consumption.txt"
-data <- read.table(dataFile, header=TRUE, sep=";", stringsAsFactors=FALSE, dec=".")
-subSetData <- data[data$Date %in% c("1/2/2007","2/2/2007") ,]
+setwd("C:/Users/Akash Gupta/Desktop/Books/R wrangling/Exploratory data analysis Coursera")
 
-#str(subSetData)
-globalActivePower <- as.numeric(subSetData$Global_active_power)
-png("plot1.png", width=480, height=480)
-hist(globalActivePower, col="red", main="Global Active Power", xlab="Global Active Power (kilowatts)")
-dev.off()
+data_full <- read.csv("household_power_consumption.txt", header=T, sep=';', na.strings="?", 
+                      nrows=2075259, check.names=F, stringsAsFactors=F, comment.char="", quote='\"')
+data1 <- subset(data_full, Date %in% c("1/2/2007","2/2/2007"))
+data1$Date <- as.Date(data1$Date, format="%d/%m/%Y")
+hist(data1$Global_active_power, main="Global Active Power", 
+     xlab="Global Active Power (kilowatts)", ylab="Frequency", col="Red")
